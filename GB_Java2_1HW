@@ -1,0 +1,140 @@
+public class Cat implements Runnable, Jumpable, Participants{
+    int maxRange = 500;
+    int maxHeight = 3;
+
+
+    @Override
+    public void jump() {
+        System.out.println("Cat jumps!");
+    }
+
+    @Override
+    public boolean canDoIt(Obstacles obstacles) {
+        if (maxRange > obstacles.getRange() && maxHeight > obstacles.getHeight()) {
+            System.out.println("Cat successfully overcome all obstacles!");
+            return true;
+        }
+        else {
+            System.out.println("Cat failed!");
+            return false;
+        }
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Cat runs!");
+
+    }
+    public class Human implements Jumpable, Runnable, Participants {
+    int maxRange = 3000;
+    int maxHeight = 2;
+
+    @Override
+    public void jump() {
+        System.out.println("Human jumps!");
+    }
+
+    @Override
+    public boolean canDoIt(Obstacles obstacles) {
+        if (maxRange > obstacles.getRange() && maxHeight > obstacles.getHeight()) {
+            System.out.println("Human successfully overcome all obstacles!");
+            return true;
+        }
+
+        else {
+            System.out.println("Human failed!");
+            return false;
+        }
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Human runs!");
+
+    }
+}
+public class Robot implements Jumpable, Runnable, Participants {
+    int maxRange = 10000;
+    int maxHeight = 5;
+
+    @Override
+    public void jump() {
+        System.out.println("Robot jumps!");
+    }
+
+    @Override
+    public boolean canDoIt(Obstacles obstacles) {
+        if (maxRange > obstacles.getRange() && maxHeight > obstacles.getHeight()) {
+            System.out.println("Robot successfully overcome all obstacles!");
+            return true;
+        }
+
+        else {
+            System.out.println("Robot failed!");
+            return false;
+        }
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Robot runs!");
+
+    }
+}
+public class Obstacles {
+    private int range;
+    private int height;
+
+    public Obstacles (int range, int height){
+        this.range = range;
+        this.height = height;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+}
+public class Track extends Obstacles {
+    public Track(int range) {
+        super(range, 0);
+    }
+}
+public class Wall extends Obstacles{
+    public Wall(int height) {
+        super(0, height);
+    }
+}
+public interface Jumpable {
+    void jump();
+}
+public interface Runnable {
+    void run();
+}
+public interface Participants {
+    int maxRange = 0;
+    int maxHeight = 0;
+    boolean canDoIt(Obstacles obstacles);
+}
+public class Main {
+
+    public static void main(String[] args) {
+        Participants[] participant = {new Human(), new Robot(), new Cat()};
+        Obstacles[] obstacle = {new Wall(2),
+                new Track(100),
+                new Wall(3),
+                new Track(1000)};
+        for (Participants participants : participant) {
+            for (Obstacles obstacles : obstacle) {
+                boolean canDoIt = participants.canDoIt(obstacles);
+                if (!canDoIt) break;
+            }
+        }
+
+
+    }
+
+}
